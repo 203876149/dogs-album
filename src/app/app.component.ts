@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {TabsComponent} from './tabs/tabs.component';
 import {MatTabsModule} from '@angular/material/tabs';
 
@@ -8,7 +8,7 @@ import {MatTabsModule} from '@angular/material/tabs';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'dogs-album';
 }

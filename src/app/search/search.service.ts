@@ -11,4 +11,8 @@ export class SearchService {
   getAllBreeds() {
     return this.http.get<{ message: Record<string, string[]>, status: string }>('https://dog.ceo/api/breeds/list/all');
   }
+
+  getBreedImagesCollection(breed: string, count: number) {
+    return this.http.get<{ message: string[], status: string }>(`https://dog.ceo/api/breed/${breed}/images/random/${count}`);
+  }
 }

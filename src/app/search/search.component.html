@@ -1,1 +1,28 @@
-<p>search works!</p>
+<form [formGroup]="form" class="">
+  <h4>Breed</h4>
+  <mat-form-field>
+    <mat-label>select a breed</mat-label>
+    <mat-select formControlName="breed">
+      @for (breed of allBreeds; track breed) {
+        <mat-option [value]="breed.breed">{{breed.breed}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Count</mat-label>
+    <input type="number" matInput placeholder="10" formControlName="count" />
+  </mat-form-field>
+</form>
+
+<div class="">
+  @for (image of images$ | async; track image) {
+    <mat-card class="" appearance="outlined" style="max-width: 400px; max-height: 400px;">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="image" alt="Photo of a Shiba Inu">
+    </mat-card>
+  }
+</div>
