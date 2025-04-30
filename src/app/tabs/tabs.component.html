@@ -1,0 +1,6 @@
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a mat-tab-link (click)="activeTab = 'search'" [active]="activeTab === 'search'">Search Breeds</a>
+  <a mat-tab-link (click)="activeTab = 'request'" [active]="activeTab === 'request'">Send a Request</a>
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+<router-outlet [routerLink]="activeTab"></router-outlet>
