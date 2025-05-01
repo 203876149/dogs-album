@@ -13,14 +13,14 @@
       <mat-label>Count</mat-label>
       <input type="number" min="1" max="50" matInput formControlName="count" />
     </mat-form-field>
-    @if (form.dirty) {
+    @if (form.dirty && !loading()) {
       <h4>Found: {{ images?.length ?? 0 }}</h4>
     }
   </form>
 
   <div class="album-container">
-    @if (!images?.length && form.dirty && form.valid) {
-      <h4>Found: </h4>
+    @if (loading()) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     } @else if (images?.length) {
       <div class="image-grid">
         @for (image of images; track image) {
