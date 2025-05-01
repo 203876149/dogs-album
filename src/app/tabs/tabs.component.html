@@ -1,16 +1,18 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a mat-tab-link
-    [routerLink]="'/search'"
-    routerLinkActive #rlaSearch="routerLinkActive"
-    [active]="rlaSearch.isActive">
-    Search Breeds
-  </a>
-  <a mat-tab-link
-    [routerLink]="'/request'"
-    routerLinkActive #rlaRequest="routerLinkActive"
-    [active]="rlaRequest.isActive">
-    Send a Request
-  </a>
-</nav>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-<router-outlet></router-outlet>
+<div class="container">
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a mat-tab-link
+      [routerLink]="'/search'"
+      routerLinkActive #rlaSearch="routerLinkActive"
+      [active]="rlaSearch.isActive">
+      SEARCH BREEDS
+    </a>
+    <a mat-tab-link
+      [routerLink]="'/request'"
+      routerLinkActive #rlaRequest="routerLinkActive"
+      [active]="rlaRequest.isActive">
+      SEND REQUEST
+    </a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <router-outlet></router-outlet>
+</div>

@@ -1,28 +1,41 @@
-<form [formGroup]="form" class="">
-  <h4>Breed</h4>
-  <mat-form-field>
-    <mat-label>select a breed</mat-label>
-    <mat-select formControlName="breed">
-      @for (breed of allBreeds; track breed) {
-        <mat-option [value]="breed.breed">{{breed.breed}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <mat-label>Count</mat-label>
-    <input type="number" matInput placeholder="10" formControlName="count" />
-  </mat-form-field>
-</form>
+<div class="search-container">
+  @let images = images$ | async;
+  <form [formGroup]="form" class="form-section">
+    <mat-form-field>
+      <mat-label>select a breed</mat-label>
+      <mat-select formControlName="breed">
+        @for (breed of allBreeds; track breed) {
+          <mat-option [value]="breed.breed">{{breed.breed}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Count</mat-label>
+      <input type="number" min="1" max="50" matInput formControlName="count" />
+    </mat-form-field>
+    @if (form.dirty) {
+      <h4>Found: {{ images?.length ?? 0 }}</h4>
+    }
+  </form>
 
-<div class="">
-  @for (image of images$ | async; track image) {
-    <mat-card class="" appearance="outlined" style="max-width: 400px; max-height: 400px;">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image [src]="image" alt="Photo of a Shiba Inu">
-    </mat-card>
-  }
+  <div class="album-container">
+    @if (!images?.length && form.dirty && form.valid) {
+      <h4>Found: </h4>
+    } @else if (images?.length) {
+      <div class="image-grid">
+        @for (image of images; track image) {
+          <div>
+            <mat-card class="dog-card" appearance="outlined">
+              <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image [src]="image" alt="Photo of a Shiba Inu" height="220" />
+            </mat-card>
+          </div>
+        }
+      </div>
+    }
+  </div>
 </div>
