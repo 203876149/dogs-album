@@ -1,1 +1,22 @@
-<p>request works!</p>
+<div class="request-container">
+  <form [formGroup]="form" class="form-section">
+    <mat-form-field>
+      <mat-label>weight</mat-label>
+      <input type="number" matInput formControlName="weight" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>color</mat-label>
+      <mat-select formControlName="color">
+        @for (color of Object.values(EColors); track color) {
+          <mat-option [value]="color">{{ color }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>age</mat-label>
+      <input type="number" matInput formControlName="age" />
+    </mat-form-field>
+    <mat-checkbox formControlName="firstAdoption"><mat-label>Is that is your first adoption?</mat-label></mat-checkbox>
+  </form>
+</div>
+

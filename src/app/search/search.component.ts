@@ -24,8 +24,8 @@ export class SearchComponent {
   searchService = inject(SearchService);
   allBreeds: Array<{ breed: string, subBreeds: string[] }> = this.activatedRoute.snapshot.data['allBreeds'];
   form = new FormGroup({
-    breed: new FormControl('', [Validators.required]),
-    count: new FormControl(0, [Validators.min(1), Validators.max(50), Validators.required, Validators.pattern(/^[0-9]+$/)]),
+    breed: new FormControl<string>('', [Validators.required]),
+    count: new FormControl<number>(0, [Validators.min(1), Validators.max(50), Validators.required, Validators.pattern(/^[0-9]+$/)]),
   });
   loading = signal(false);
 
