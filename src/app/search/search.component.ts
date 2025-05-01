@@ -5,7 +5,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-import {map, Observable, of, switchMap, tap} from 'rxjs';
+import {debounceTime, map, Observable, of, switchMap, tap} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -30,6 +30,7 @@ export class SearchComponent {
   loading = signal(false);
 
   images$: Observable<string[]> = this.form?.valueChanges.pipe(
+    debounceTime(500),
     tap(() => this.loading.set(true)),
     switchMap((value) =>
       (this.form.valid) ? this.searchService.getBreedImagesCollection(value.breed as string, value.count as number)
