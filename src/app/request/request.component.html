@@ -1,8 +1,12 @@
 <div class="request-container">
   <form [formGroup]="form" class="form-section">
+    @let errors = errorMessages$ | async;
     <mat-form-field>
       <mat-label>weight</mat-label>
       <input type="number" matInput formControlName="weight" />
+      @if (errors?.['weight']) {
+        <mat-error>{{ errors?.['weight'] }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field>
       <mat-label>color</mat-label>
@@ -11,12 +15,27 @@
           <mat-option [value]="color">{{ color }}</mat-option>
         }
       </mat-select>
+      @if (errors?.['color']) {
+        <mat-error>{{ errors?.['color'] }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field>
       <mat-label>age</mat-label>
       <input type="number" matInput formControlName="age" />
+      @if (errors?.['age']) {
+        <mat-error>{{ errors?.['age'] }}</mat-error>
+      }
     </mat-form-field>
     <mat-checkbox formControlName="firstAdoption"><mat-label>Is that is your first adoption?</mat-label></mat-checkbox>
   </form>
+  <div class="button-container">
+    @if (!submitEvent()) {
+      <button (click)="onSubmit()" type="submit" [disabled]="!form.valid" mat-flat-button>SUBMIT</button>
+    } @else if (submitEvent() === 'processing') {
+      <mat-spinner></mat-spinner>
+    } @else if (submitEvent() === 'success') {
+      <h3 @fadeOut>Your adoption request has been registered in the system.</h3>
+    }
+  </div>
 </div>
 

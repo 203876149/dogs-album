@@ -14,6 +14,13 @@ request-container {
   align-items: center;
   background-color: #f5f5f5;
   padding: 16px;
+  margin: 16px 8px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.button-container {
+  margin: 25px 8px;
+  display: flex;
+  justify-content: center;
 }
