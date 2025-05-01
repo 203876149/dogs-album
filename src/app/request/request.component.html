@@ -29,11 +29,11 @@
     <mat-checkbox formControlName="firstAdoption"><mat-label>Is that is your first adoption?</mat-label></mat-checkbox>
   </form>
   <div class="button-container">
-    @if (!submitEvent()) {
+    @if (submitStatus() === 'pristine') {
       <button (click)="onSubmit()" type="submit" [disabled]="!form.valid" mat-flat-button>SUBMIT</button>
-    } @else if (submitEvent() === 'processing') {
+    } @else if (submitStatus() === 'processing') {
       <mat-spinner></mat-spinner>
-    } @else if (submitEvent() === 'success') {
+    } @else if (submitStatus() === 'success') {
       <h3 @fadeOut>Your adoption request has been registered in the system.</h3>
     }
   </div>

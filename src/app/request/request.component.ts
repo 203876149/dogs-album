@@ -8,7 +8,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {AsyncPipe} from '@angular/common';
 import {MatCard, MatCardAvatar, MatCardHeader, MatCardImage, MatCardTitle} from '@angular/material/card';
 import {MatProgressBar} from '@angular/material/progress-bar';
-import {filter, map, Observable} from 'rxjs';
+import {concat, delay, filter, map, Observable, of, take, tap} from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -33,10 +33,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class RequestComponent {
 
   form = new FormGroup({
-    weight: new FormControl<number>(1, [Validators.min(1), Validators.max(100), Validators.required, Validators.pattern(/^[0-9]+$/)]),
+    weight: new FormControl<number | null>(null, [Validators.min(1), Validators.max(100), Validators.required, Validators.pattern(/^[0-9]+$/)]),
     color: new FormControl<EColor | null>(null, [Validators.required]),
     firstAdoption: new FormControl<boolean>(false, [Validators.required]),
-    age: new FormControl<number>(1, [Validators.min(1), Validators.max(20), Validators.required, Validators.pattern(/^[0-9]+$/)]),
+    age: new FormControl<number | null>(null, [Validators.min(1), Validators.max(20), Validators.required, Validators.pattern(/^[0-9]+$/)]),
   });
 
   errorMessages$: Observable<Record<string, string>> = this.form.statusChanges
@@ -70,7 +70,25 @@ export class RequestComponent {
       })
     );
 
-  submitEvent = signal<'processing' | 'success' | null>(null);
+  submitStatus = signal<'pristine' | 'processing' | 'success' | null>('pristine');
+
+  submitProcess$ = concat(
+    of(null).pipe(
+      tap(() => this.submitStatus.set('processing')),
+      delay(2000)
+    ),
+    of(null).pipe(
+      tap(() => this.submitStatus.set('success')),
+      delay(2000)
+    ),
+    of(null).pipe(
+      tap(() => this.submitStatus.set(null)),
+      delay(2000)
+    ),
+    of(null).pipe(
+      tap(() => this.submitStatus.set('pristine'))
+    )
+  )
 
 
   constructor() {
@@ -88,13 +106,7 @@ export class RequestComponent {
 
   onSubmit() {
     this.form.reset();
-    this.submitEvent.set('processing');
-      setTimeout(() => {
-        this.submitEvent.set('success');
-        setTimeout(() => {
-          this.submitEvent.set(null);
-        }, 3000);
-      }, 2000);
+    this.submitProcess$.pipe(take(4)).subscribe();
   }
 
 
