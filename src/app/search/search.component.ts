@@ -42,10 +42,4 @@ export class SearchComponent {
     tap(() => this.loading.set(false))
     )
 
-
-  ngOnInit() {
-    this.images$.subscribe(res => console.log('images:', res));
-
-  }
-
 }

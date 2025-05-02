@@ -6,8 +6,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {AsyncPipe} from '@angular/common';
-import {MatCard, MatCardAvatar, MatCardHeader, MatCardImage, MatCardTitle} from '@angular/material/card';
-import {MatProgressBar} from '@angular/material/progress-bar';
 import {concat, delay, filter, map, Observable, of, take, tap} from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
@@ -16,8 +14,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-request',
-  imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatCheckbox, AsyncPipe, MatCard,
-    MatCardAvatar, MatCardHeader, MatCardImage, MatCardTitle, MatProgressBar, MatButtonModule, MatProgressSpinner],
+  imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatCheckbox, AsyncPipe, MatButtonModule, MatProgressSpinner],
   templateUrl: './request.component.html',
   styleUrl: './request.component.css',
   standalone: true,
@@ -46,24 +43,23 @@ export class RequestComponent {
         const errors: Record<string, string> = {};
         Object.entries(this.form.controls).forEach(([ctrKey, value]) => {
           const errorKey = value.errors ? Object.keys(value.errors)[0] : null
-              switch (errorKey) {
-                case null:
-                  break;
-                 case 'required':
-                   errors[ctrKey] = 'This field is required';
-                   break;
-                 case 'min':
-                  errors[ctrKey] = `Minimum value is ${value.errors?.['min'].min}`;
-                  break;
-                case 'max':
-                  console.log('max:', value.errors);
-                  errors[ctrKey] = `Maximum value is ${value.errors?.['max'].max}`;
-                  break;
-                case 'pattern':
-                  errors[ctrKey] = 'Invalid format';
-                  break;
-                default:
-                  errors[ctrKey] = 'Unknown error';
+            switch (errorKey) {
+              case null:
+                break;
+              case 'required':
+                errors[ctrKey] = 'This field is required';
+                break;
+              case 'min':
+                errors[ctrKey] = `Minimum value is ${value.errors?.['min'].min}`;
+                break;
+              case 'max':
+                errors[ctrKey] = `Maximum value is ${value.errors?.['max'].max}`;
+                break;
+              case 'pattern':
+                errors[ctrKey] = 'Invalid format';
+                break;
+              default:
+                errors[ctrKey] = 'Unknown error';
               }
         });
         return errors;
@@ -79,7 +75,7 @@ export class RequestComponent {
     ),
     of(null).pipe(
       tap(() => this.submitStatus.set('success')),
-      delay(2000)
+      delay(5000)
     ),
     of(null).pipe(
       tap(() => this.submitStatus.set(null)),
@@ -88,7 +84,7 @@ export class RequestComponent {
     of(null).pipe(
       tap(() => this.submitStatus.set('pristine'))
     )
-  )
+  ).pipe(take(4));
 
 
   constructor() {
@@ -106,7 +102,7 @@ export class RequestComponent {
 
   onSubmit() {
     this.form.reset();
-    this.submitProcess$.pipe(take(4)).subscribe();
+    this.submitProcess$.subscribe();
   }
 
 

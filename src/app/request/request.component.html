@@ -3,7 +3,7 @@
     @let errors = errorMessages$ | async;
     <mat-form-field>
       <mat-label>weight</mat-label>
-      <input type="number" matInput formControlName="weight" />
+      <input type="number" matInput min="1" max="100" formControlName="weight" />
       @if (errors?.['weight']) {
         <mat-error>{{ errors?.['weight'] }}</mat-error>
       }
@@ -21,18 +21,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>age</mat-label>
-      <input type="number" matInput formControlName="age" />
+      <input type="number" min="1" max="20" matInput formControlName="age" />
       @if (errors?.['age']) {
         <mat-error>{{ errors?.['age'] }}</mat-error>
       }
     </mat-form-field>
-    <mat-checkbox formControlName="firstAdoption"><mat-label>Is that is your first adoption?</mat-label></mat-checkbox>
+    <mat-checkbox formControlName="firstAdoption"><mat-label>Is it your first adoption?</mat-label></mat-checkbox>
   </form>
   <div class="button-container">
     @if (submitStatus() === 'pristine') {
       <button (click)="onSubmit()" type="submit" [disabled]="!form.valid" mat-flat-button>SUBMIT</button>
     } @else if (submitStatus() === 'processing') {
-      <mat-spinner></mat-spinner>
+      <mat-spinner/>
     } @else if (submitStatus() === 'success') {
       <h3 @fadeOut>Your adoption request has been registered in the system.</h3>
     }
